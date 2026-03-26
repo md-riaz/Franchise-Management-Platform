@@ -1,25 +1,28 @@
-<div class="space-y-4">
-    <div class="glass-card p-6">
-        <div class="flex flex-wrap items-center justify-between gap-3">
-            <div>
-                <p class="muted-label">Suppliers</p>
-                <h2 class="text-2xl font-bold text-slate-900">Vendor Management</h2>
-                <p class="text-sm text-slate-600 mt-1">Curate trusted partners and monitor their status</p>
-            </div>
-            <div class="pill bg-slate-100 text-slate-700 border border-slate-200">
-                {{ $vendors->total() }} vendors
-            </div>
+<div class="space-y-5">
+    {{-- Page header --}}
+    <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+        <div>
+            <h1 class="text-2xl font-bold text-neutral-900">Vendors</h1>
+            <p class="text-sm text-neutral-500 mt-0.5">Curate trusted partners and monitor their status</p>
         </div>
+        <x-ui.badge color="indigo" variant="outline">{{ $vendors->total() }} vendors</x-ui.badge>
+    </div>
 
-        <div class="mt-5 grid grid-cols-1 sm:grid-cols-2 gap-4">
-            <div>
-                <label class="muted-label block mb-2">Search</label>
-                <input type="text" wire:model.live="search" placeholder="Search vendors..." 
-                       class="w-full rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm text-slate-800 shadow-sm focus:border-blue-500 focus:ring-2 focus:ring-blue-200">
+    {{-- Filters --}}
+    <div class="bg-white rounded-xl border border-neutral-200 p-5">
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div class="space-y-1.5">
+                <label class="block text-xs font-semibold text-neutral-500 uppercase tracking-wide">Search</label>
+                <div class="relative">
+                    <x-heroicon-m-magnifying-glass class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-neutral-400 pointer-events-none" />
+                    <input type="text" wire:model.live="search" placeholder="Search vendors..."
+                        class="w-full rounded-lg border border-neutral-300 bg-white pl-9 pr-3 py-2.5 text-sm text-neutral-900 placeholder-neutral-400 shadow-xs transition focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20 focus:outline-none">
+                </div>
             </div>
-            <div>
-                <label class="muted-label block mb-2">Status</label>
-                <select wire:model.live="status" class="w-full rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm text-slate-800 shadow-sm focus:border-blue-500 focus:ring-2 focus:ring-blue-200">
+            <div class="space-y-1.5">
+                <label class="block text-xs font-semibold text-neutral-500 uppercase tracking-wide">Status</label>
+                <select wire:model.live="status"
+                    class="w-full rounded-lg border border-neutral-300 bg-white px-3 py-2.5 text-sm text-neutral-900 shadow-xs transition focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20 focus:outline-none">
                     <option value="">All Status</option>
                     <option value="active">Active</option>
                     <option value="inactive">Inactive</option>
@@ -28,66 +31,68 @@
         </div>
     </div>
 
-    <div class="glass-card overflow-hidden">
-        <div class="px-6 py-4 border-b border-slate-200/70 flex items-center justify-between">
-            <div>
-                <p class="muted-label">Partner list</p>
-                <p class="text-slate-800 font-semibold">Contact directory</p>
-            </div>
+    {{-- Table --}}
+    <div class="bg-white rounded-xl border border-neutral-200 overflow-hidden">
+        <div class="px-5 py-4 border-b border-neutral-200">
+            <h2 class="text-sm font-semibold text-neutral-900">Vendor Directory</h2>
         </div>
         <div class="overflow-x-auto">
-            <table class="w-full text-sm text-left text-slate-700">
-                <thead class="text-xs uppercase text-slate-500 bg-slate-50">
+            <table class="w-full text-sm">
+                <thead class="bg-neutral-50 border-b border-neutral-200">
                     <tr>
-                        <th class="px-6 py-3">Code</th>
-                        <th class="px-6 py-3">Name</th>
-                        <th class="px-6 py-3">Contact Person</th>
-                        <th class="px-6 py-3">Email</th>
-                        <th class="px-6 py-3">Phone</th>
-                        <th class="px-6 py-3">Rating</th>
-                        <th class="px-6 py-3">Status</th>
-                        <th class="px-6 py-3">Actions</th>
+                        <th class="px-5 py-3 text-left text-xs font-semibold text-neutral-500 uppercase tracking-wide">Code</th>
+                        <th class="px-5 py-3 text-left text-xs font-semibold text-neutral-500 uppercase tracking-wide">Name</th>
+                        <th class="px-5 py-3 text-left text-xs font-semibold text-neutral-500 uppercase tracking-wide">Contact</th>
+                        <th class="px-5 py-3 text-left text-xs font-semibold text-neutral-500 uppercase tracking-wide">Email</th>
+                        <th class="px-5 py-3 text-left text-xs font-semibold text-neutral-500 uppercase tracking-wide">Phone</th>
+                        <th class="px-5 py-3 text-left text-xs font-semibold text-neutral-500 uppercase tracking-wide">Rating</th>
+                        <th class="px-5 py-3 text-left text-xs font-semibold text-neutral-500 uppercase tracking-wide">Status</th>
+                        <th class="px-5 py-3 text-left text-xs font-semibold text-neutral-500 uppercase tracking-wide">Actions</th>
                     </tr>
                 </thead>
-                <tbody class="divide-y divide-slate-100">
+                <tbody class="divide-y divide-neutral-100">
                     @forelse($vendors as $vendor)
-                    <tr class="hover:bg-slate-50/70">
-                        <td class="px-6 py-4 font-semibold text-slate-900">{{ $vendor->code }}</td>
-                        <td class="px-6 py-4 text-slate-800">{{ $vendor->name }}</td>
-                        <td class="px-6 py-4 text-slate-600">{{ $vendor->contact_person }}</td>
-                        <td class="px-6 py-4 text-slate-600">{{ $vendor->email }}</td>
-                        <td class="px-6 py-4 text-slate-600">{{ $vendor->phone }}</td>
-                        <td class="px-6 py-4 text-slate-600">
-                            <div class="flex items-center gap-2">
-                                <span class="text-amber-400">★</span>
-                                <span class="font-medium text-slate-800">{{ number_format($vendor->rating, 1) }}</span>
+                    <tr class="hover:bg-neutral-50 transition-colors">
+                        <td class="px-5 py-3.5">
+                            <span class="font-mono text-xs font-semibold text-indigo-700 bg-indigo-50 px-2 py-0.5 rounded">{{ $vendor->code }}</span>
+                        </td>
+                        <td class="px-5 py-3.5 font-medium text-neutral-900">{{ $vendor->name }}</td>
+                        <td class="px-5 py-3.5 text-neutral-600">{{ $vendor->contact_person }}</td>
+                        <td class="px-5 py-3.5 text-neutral-500 text-xs">{{ $vendor->email }}</td>
+                        <td class="px-5 py-3.5 text-neutral-500 text-xs">{{ $vendor->phone }}</td>
+                        <td class="px-5 py-3.5">
+                            <div class="flex items-center gap-1">
+                                <x-heroicon-m-star class="w-3.5 h-3.5 text-amber-400" />
+                                <span class="font-medium text-neutral-800 text-xs">{{ number_format($vendor->rating, 1) }}</span>
                             </div>
                         </td>
-                        <td class="px-6 py-4">
-                            <span class="pill 
-                                @if($vendor->status === 'active') bg-emerald-50 text-emerald-700 border border-emerald-100
-                                @else bg-slate-100 text-slate-700 border border-slate-200
-                                @endif">
-                                {{ ucfirst($vendor->status) }}
-                            </span>
+                        <td class="px-5 py-3.5">
+                            @if($vendor->status === 'active')
+                                <x-ui.badge color="emerald">{{ ucfirst($vendor->status) }}</x-ui.badge>
+                            @else
+                                <x-ui.badge>{{ ucfirst($vendor->status) }}</x-ui.badge>
+                            @endif
                         </td>
-                        <td class="px-6 py-4 font-medium text-blue-600">
-                            <div class="flex gap-3">
-                                <a href="#" class="hover:text-blue-700">View</a>
-                                <a href="#" class="text-indigo-600 hover:text-indigo-700">Edit</a>
+                        <td class="px-5 py-3.5">
+                            <div class="flex items-center gap-2">
+                                <a href="#" class="text-xs font-medium text-indigo-600 hover:text-indigo-800 transition-colors">View</a>
+                                <span class="text-neutral-300">·</span>
+                                <a href="#" class="text-xs font-medium text-neutral-600 hover:text-neutral-800 transition-colors">Edit</a>
                             </div>
                         </td>
                     </tr>
                     @empty
                     <tr>
-                        <td colspan="8" class="px-6 py-4 text-center text-sm text-slate-500">No vendors found</td>
+                        <td colspan="8" class="px-5 py-10 text-center">
+                            <x-heroicon-m-truck class="w-8 h-8 text-neutral-300 mx-auto mb-2" />
+                            <p class="text-sm text-neutral-400">No vendors found</p>
+                        </td>
                     </tr>
                     @endforelse
                 </tbody>
             </table>
         </div>
-
-        <div class="px-6 py-4 border-t border-slate-200/70 bg-slate-50/60">
+        <div class="px-5 py-4 border-t border-neutral-200 bg-neutral-50">
             {{ $vendors->links() }}
         </div>
     </div>

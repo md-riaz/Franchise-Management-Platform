@@ -1,0 +1,13 @@
+/* By Sheaf.dev */
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme inline {
+    /* primary color variables - using indigo as brand color */
+    --color-primary: var(--color-indigo-600);
+    --color-primary-content: var(--color-indigo-600);
+    --color-primary-fg: var(--color-white);
+
+    /* radius variables */
+    --radius-field: 0.375rem;
+    --radius-box: 0.5rem;
+}
