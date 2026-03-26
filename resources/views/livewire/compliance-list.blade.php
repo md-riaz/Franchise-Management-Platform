@@ -13,34 +13,30 @@
         <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
             @if(auth()->user()->isFranchisor() || auth()->user()->isAdmin())
             <div class="space-y-1.5">
-                <label class="block text-xs font-semibold text-neutral-500 uppercase tracking-wide">Franchise</label>
-                <select wire:model.live="franchiseId"
-                    class="w-full rounded-lg border border-neutral-300 bg-white px-3 py-2.5 text-sm text-neutral-900 shadow-xs transition focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20 focus:outline-none">
-                    <option value="">All Franchises</option>
+                <x-ui.label>Franchise</x-ui.label>
+                <x-ui.select wire:model.live="franchiseId" placeholder="All Franchises">
+                    <x-ui.select.option value="">All Franchises</x-ui.select.option>
                     @foreach($franchises as $franchise)
-                    <option value="{{ $franchise->id }}">{{ $franchise->name }}</option>
+                    <x-ui.select.option value="{{ $franchise->id }}">{{ $franchise->name }}</x-ui.select.option>
                     @endforeach
-                </select>
+                </x-ui.select>
             </div>
             @endif
             <div class="space-y-1.5">
-                <label class="block text-xs font-semibold text-neutral-500 uppercase tracking-wide">Status</label>
-                <select wire:model.live="status"
-                    class="w-full rounded-lg border border-neutral-300 bg-white px-3 py-2.5 text-sm text-neutral-900 shadow-xs transition focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20 focus:outline-none">
-                    <option value="">All Status</option>
-                    <option value="pending">Pending</option>
-                    <option value="in_progress">In Progress</option>
-                    <option value="completed">Completed</option>
-                    <option value="overdue">Overdue</option>
-                    <option value="non_compliant">Non-Compliant</option>
-                </select>
+                <x-ui.label>Status</x-ui.label>
+                <x-ui.select wire:model.live="status" placeholder="All Status">
+                    <x-ui.select.option value="">All Status</x-ui.select.option>
+                    <x-ui.select.option value="pending">Pending</x-ui.select.option>
+                    <x-ui.select.option value="in_progress">In Progress</x-ui.select.option>
+                    <x-ui.select.option value="completed">Completed</x-ui.select.option>
+                    <x-ui.select.option value="overdue">Overdue</x-ui.select.option>
+                    <x-ui.select.option value="non_compliant">Non-Compliant</x-ui.select.option>
+                </x-ui.select>
             </div>
             <div class="flex items-end">
-                <label class="flex items-center gap-2 cursor-pointer text-sm text-neutral-700">
-                    <input type="checkbox" wire:model.live="showOverdueOnly"
-                        class="h-4 w-4 rounded border-neutral-300 text-red-600 focus:ring-red-500">
-                    <span>Overdue Only</span>
-                </label>
+                <x-ui.checkbox wire:model.live="showOverdueOnly">
+                    <x-ui.checkbox.label>Overdue Only</x-ui.checkbox.label>
+                </x-ui.checkbox>
             </div>
         </div>
     </div>
