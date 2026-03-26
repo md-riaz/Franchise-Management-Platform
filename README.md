@@ -152,16 +152,21 @@ The application will be available at `http://localhost:8080`. Adjust database cr
 
 ## Screenshot Tour
 
-- Welcome: `public/screenshots/welcome.png`
-- Login: `public/screenshots/login.png`
-- Dashboard: `public/screenshots/dashboard.png`
-- Franchises: `public/screenshots/franchises.png`
-- Inventory: `public/screenshots/inventory.png`
-- Sales: `public/screenshots/sales.png`
-- Vendors: `public/screenshots/vendors.png`
-- Compliance: `public/screenshots/compliance.png`
-- Royalties: `public/screenshots/royalties.png`
+The screenshots below showcase the revamped UI built with SheafUI components and Tailwind CSS 4.
 
+| Screen | File |
+|--------|------|
+| Welcome | `public/screenshots/welcome.png` |
+| Login | `public/screenshots/login.png` |
+| Dashboard | `public/screenshots/dashboard.png` |
+| Franchises | `public/screenshots/franchises.png` |
+| Inventory | `public/screenshots/inventory.png` |
+| Sales | `public/screenshots/sales.png` |
+| Vendors | `public/screenshots/vendors.png` |
+| Compliance | `public/screenshots/compliance.png` |
+| Royalties | `public/screenshots/royalties.png` |
+
+![Welcome](public/screenshots/welcome.png)
 ![Login](public/screenshots/login.png)
 ![Dashboard](public/screenshots/dashboard.png)
 ![Franchises](public/screenshots/franchises.png)

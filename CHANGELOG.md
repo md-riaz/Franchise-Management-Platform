@@ -10,9 +10,14 @@ and this project uses date-based releases (`YYYY-MM-DD`) as the version identifi
 ### Added
 - Docker deployment support with PHP-FPM, Nginx, and MySQL orchestration
 - Team guidance in `AGENT.md` requiring dated changelog entries for every change
+- Revamped UI/UX with SheafUI components and Tailwind CSS 4 across all views (login, dashboard, franchises, inventory, sales, vendors, compliance, royalties, welcome)
+- New screenshots capturing the updated UI (1440 × 757 px, all nine screens) in `public/screenshots/`
+- Added `blade-ui-kit/blade-heroicons` dependency to support Heroicon Blade components used throughout the new UI
+- Added missing base `Controller` class for API controllers
 
 ### Changed
 - Adopted date-based versioning and updated release documentation
+- Updated `README.md` Screenshot Tour section: added welcome screenshot, switched list to a table, and added a description of the SheafUI revamp
 
 ## [2025-10-24]
 
