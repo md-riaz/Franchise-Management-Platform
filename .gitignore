@@ -2,6 +2,9 @@
 node_modules/
 npm-debug.log
 yarn-error.log
+bootstrap/cache/
+storage/
+database/*.sqlite
 
 # Laravel 4 specific
 bootstrap/compiled.php
