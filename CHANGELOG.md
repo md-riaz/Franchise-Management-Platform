@@ -3,9 +3,18 @@
 All notable changes to the Franchise Management Platform will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
-and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
+and this project uses date-based releases (`YYYY-MM-DD`) as the version identifier.
 
-## [1.0.0] - 2025-10-24
+## [2026-03-26]
+
+### Added
+- Docker deployment support with PHP-FPM, Nginx, and MySQL orchestration
+- Team guidance in `AGENT.md` requiring dated changelog entries for every change
+
+### Changed
+- Adopted date-based versioning and updated release documentation
+
+## [2025-10-24]
 
 ### Added
 
@@ -124,7 +133,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## Release Notes
 
-### v1.0.0 Initial Release
+### 2026-03-26 Release
+
+- Added Docker deployment support (PHP-FPM, Nginx, MySQL)
+- Standardized on date-based release identifiers with mandatory dated changelog entries
+
+### 2025-10-24 Initial Release
 
 This is the first production-ready release of the Franchise Management Platform. It includes all core features necessary for managing a multi-location franchise network, including:
 
