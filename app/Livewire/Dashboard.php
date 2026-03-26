@@ -20,11 +20,18 @@ class Dashboard extends Component
 
     public function mount()
     {
+        $this->totalSales = 0;
+        $this->monthlySales = 0;
+        $this->pendingRoyalties = 0;
+        $this->overdueCompliance = 0;
+        $this->activeFranchises = 0;
+        $this->recentSales = collect();
+
         $user = Auth::user();
         
-        if ($user->isFranchisor()) {
+        if ($user && ($user->isFranchisor() || $user->isAdmin())) {
             $this->loadFranchisorDashboard();
-        } else {
+        } elseif ($user) {
             $this->loadFranchiseeDashboard();
         }
     }
@@ -62,6 +69,7 @@ class Dashboard extends Component
         $franchise = Auth::user()->franchises()->first();
         
         if (!$franchise) {
+            $this->recentSales = collect();
             return;
         }
         

@@ -21,26 +21,38 @@
                         </a>
                     </div>
                     <div class="hidden sm:ml-6 sm:flex sm:space-x-8">
-                        <a href="{{ route('dashboard') }}" class="inline-flex items-center px-1 pt-1 border-b-2 border-transparent text-sm font-medium text-gray-500 hover:text-gray-700 hover:border-gray-300">
+                        <a href="{{ route('dashboard') }}" class="inline-flex items-center px-1 pt-1 border-b-2 {{ request()->routeIs('dashboard') ? 'border-blue-500 text-gray-900' : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300' }} text-sm font-medium">
                             Dashboard
                         </a>
-                        <a href="#" class="inline-flex items-center px-1 pt-1 border-b-2 border-transparent text-sm font-medium text-gray-500 hover:text-gray-700 hover:border-gray-300">
+                        <a href="{{ route('franchises') }}" class="inline-flex items-center px-1 pt-1 border-b-2 {{ request()->routeIs('franchises') ? 'border-blue-500 text-gray-900' : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300' }} text-sm font-medium">
                             Franchises
                         </a>
-                        <a href="#" class="inline-flex items-center px-1 pt-1 border-b-2 border-transparent text-sm font-medium text-gray-500 hover:text-gray-700 hover:border-gray-300">
+                        <a href="{{ route('inventory') }}" class="inline-flex items-center px-1 pt-1 border-b-2 {{ request()->routeIs('inventory') ? 'border-blue-500 text-gray-900' : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300' }} text-sm font-medium">
                             Inventory
                         </a>
-                        <a href="#" class="inline-flex items-center px-1 pt-1 border-b-2 border-transparent text-sm font-medium text-gray-500 hover:text-gray-700 hover:border-gray-300">
+                        <a href="{{ route('sales') }}" class="inline-flex items-center px-1 pt-1 border-b-2 {{ request()->routeIs('sales') ? 'border-blue-500 text-gray-900' : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300' }} text-sm font-medium">
                             Sales
                         </a>
-                        <a href="#" class="inline-flex items-center px-1 pt-1 border-b-2 border-transparent text-sm font-medium text-gray-500 hover:text-gray-700 hover:border-gray-300">
+                        <a href="{{ route('vendors') }}" class="inline-flex items-center px-1 pt-1 border-b-2 {{ request()->routeIs('vendors') ? 'border-blue-500 text-gray-900' : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300' }} text-sm font-medium">
                             Vendors
                         </a>
-                        <a href="#" class="inline-flex items-center px-1 pt-1 border-b-2 border-transparent text-sm font-medium text-gray-500 hover:text-gray-700 hover:border-gray-300">
+                        <a href="{{ route('compliance') }}" class="inline-flex items-center px-1 pt-1 border-b-2 {{ request()->routeIs('compliance') ? 'border-blue-500 text-gray-900' : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300' }} text-sm font-medium">
                             Compliance
+                        </a>
+                        <a href="{{ route('royalties') }}" class="inline-flex items-center px-1 pt-1 border-b-2 {{ request()->routeIs('royalties') ? 'border-blue-500 text-gray-900' : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300' }} text-sm font-medium">
+                            Royalties
                         </a>
                     </div>
                 </div>
+                @auth
+                    <div class="flex items-center space-x-4">
+                        <span class="text-sm text-gray-600">{{ auth()->user()->email }}</span>
+                        <form method="POST" action="{{ route('logout') }}">
+                            @csrf
+                            <button type="submit" class="text-sm text-red-600 hover:text-red-800">Logout</button>
+                        </form>
+                    </div>
+                @endauth
             </div>
         </div>
     </nav>

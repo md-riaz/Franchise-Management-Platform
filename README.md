@@ -126,6 +126,14 @@ A comprehensive, full-featured system built with **Laravel 11** and **Livewire 3
 
 Visit `http://localhost:8000` in your browser.
 
+## Seed Data & Credentials
+
+After running `php artisan migrate --seed`, you can sign in with seeded accounts:
+
+- Admin: `admin@franchise.com` / `password`
+- Franchisor: `franchisor@franchise.com` / `password`
+- Franchisee: `franchisee@franchise.com` / `password`
+
 ## Docker Deployment
 
 Build and run the stack with Docker Compose (PHP-FPM, Nginx, and MySQL):
@@ -141,6 +149,27 @@ docker compose exec app php artisan db:seed
 ```
 
 The application will be available at `http://localhost:8080`. Adjust database credentials in `.env` or `docker-compose.yml` as needed for your environment.
+
+## Screenshot Tour
+
+- Welcome: `public/screenshots/welcome.png`
+- Login: `public/screenshots/login.png`
+- Dashboard: `public/screenshots/dashboard.png`
+- Franchises: `public/screenshots/franchises.png`
+- Inventory: `public/screenshots/inventory.png`
+- Sales: `public/screenshots/sales.png`
+- Vendors: `public/screenshots/vendors.png`
+- Compliance: `public/screenshots/compliance.png`
+- Royalties: `public/screenshots/royalties.png`
+
+![Login](public/screenshots/login.png)
+![Dashboard](public/screenshots/dashboard.png)
+![Franchises](public/screenshots/franchises.png)
+![Inventory](public/screenshots/inventory.png)
+![Sales](public/screenshots/sales.png)
+![Vendors](public/screenshots/vendors.png)
+![Compliance](public/screenshots/compliance.png)
+![Royalties](public/screenshots/royalties.png)
 
 ## Database Schema
 
