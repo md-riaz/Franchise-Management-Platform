@@ -1,21 +1,21 @@
-<div class="space-y-4">
-    <div class="glass-card p-6">
-        <div class="flex flex-wrap items-center justify-between gap-3">
-            <div>
-                <p class="muted-label">Risk</p>
-                <h2 class="text-2xl font-bold text-slate-900">Compliance Tracking</h2>
-                <p class="text-sm text-slate-600 mt-1">Stay ahead of audits, renewals, and safety checks</p>
-            </div>
-            <div class="pill bg-slate-100 text-slate-700 border border-slate-200">
-                {{ $complianceRecords->total() }} items
-            </div>
+<div class="space-y-5">
+    {{-- Page header --}}
+    <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+        <div>
+            <h1 class="text-2xl font-bold text-neutral-900">Compliance</h1>
+            <p class="text-sm text-neutral-500 mt-0.5">Stay ahead of audits, renewals, and safety checks</p>
         </div>
+        <x-ui.badge color="indigo" variant="outline">{{ $complianceRecords->total() }} items</x-ui.badge>
+    </div>
 
-        <div class="mt-5 grid grid-cols-1 sm:grid-cols-3 gap-4">
+    {{-- Filters --}}
+    <div class="bg-white rounded-xl border border-neutral-200 p-5">
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
             @if(auth()->user()->isFranchisor() || auth()->user()->isAdmin())
-            <div class="sm:col-span-1">
-                <label class="muted-label block mb-2">Franchise</label>
-                <select wire:model.live="franchiseId" class="w-full rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm text-slate-800 shadow-sm focus:border-blue-500 focus:ring-2 focus:ring-blue-200">
+            <div class="space-y-1.5">
+                <label class="block text-xs font-semibold text-neutral-500 uppercase tracking-wide">Franchise</label>
+                <select wire:model.live="franchiseId"
+                    class="w-full rounded-lg border border-neutral-300 bg-white px-3 py-2.5 text-sm text-neutral-900 shadow-xs transition focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20 focus:outline-none">
                     <option value="">All Franchises</option>
                     @foreach($franchises as $franchise)
                     <option value="{{ $franchise->id }}">{{ $franchise->name }}</option>
@@ -23,9 +23,10 @@
                 </select>
             </div>
             @endif
-            <div class="sm:col-span-1">
-                <label class="muted-label block mb-2">Status</label>
-                <select wire:model.live="status" class="w-full rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm text-slate-800 shadow-sm focus:border-blue-500 focus:ring-2 focus:ring-blue-200">
+            <div class="space-y-1.5">
+                <label class="block text-xs font-semibold text-neutral-500 uppercase tracking-wide">Status</label>
+                <select wire:model.live="status"
+                    class="w-full rounded-lg border border-neutral-300 bg-white px-3 py-2.5 text-sm text-neutral-900 shadow-xs transition focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20 focus:outline-none">
                     <option value="">All Status</option>
                     <option value="pending">Pending</option>
                     <option value="in_progress">In Progress</option>
@@ -35,83 +36,83 @@
                 </select>
             </div>
             <div class="flex items-end">
-                <label class="flex items-center gap-2 text-sm text-slate-700">
-                    <input type="checkbox" wire:model.live="showOverdueOnly" class="rounded border-slate-300 text-red-600 shadow-sm focus:border-red-500 focus:ring-red-500">
-                    Overdue Only
+                <label class="flex items-center gap-2 cursor-pointer text-sm text-neutral-700">
+                    <input type="checkbox" wire:model.live="showOverdueOnly"
+                        class="h-4 w-4 rounded border-neutral-300 text-red-600 focus:ring-red-500">
+                    <span>Overdue Only</span>
                 </label>
             </div>
         </div>
     </div>
 
-    <div class="glass-card overflow-hidden">
-        <div class="px-6 py-4 border-b border-slate-200/70 flex items-center justify-between">
-            <div>
-                <p class="muted-label">Tasks</p>
-                <p class="text-slate-800 font-semibold">Compliance obligations</p>
-            </div>
+    {{-- Table --}}
+    <div class="bg-white rounded-xl border border-neutral-200 overflow-hidden">
+        <div class="px-5 py-4 border-b border-neutral-200">
+            <h2 class="text-sm font-semibold text-neutral-900">Compliance Obligations</h2>
         </div>
         <div class="overflow-x-auto">
-            <table class="w-full text-sm text-left text-slate-700">
-                <thead class="text-xs uppercase text-slate-500 bg-slate-50">
+            <table class="w-full text-sm">
+                <thead class="bg-neutral-50 border-b border-neutral-200">
                     <tr>
                         @if(auth()->user()->isFranchisor() || auth()->user()->isAdmin())
-                        <th class="px-6 py-3">Franchise</th>
+                        <th class="px-5 py-3 text-left text-xs font-semibold text-neutral-500 uppercase tracking-wide">Franchise</th>
                         @endif
-                        <th class="px-6 py-3">Requirement</th>
-                        <th class="px-6 py-3">Category</th>
-                        <th class="px-6 py-3">Due Date</th>
-                        <th class="px-6 py-3">Completion Date</th>
-                        <th class="px-6 py-3">Status</th>
-                        <th class="px-6 py-3">Actions</th>
+                        <th class="px-5 py-3 text-left text-xs font-semibold text-neutral-500 uppercase tracking-wide">Requirement</th>
+                        <th class="px-5 py-3 text-left text-xs font-semibold text-neutral-500 uppercase tracking-wide">Category</th>
+                        <th class="px-5 py-3 text-left text-xs font-semibold text-neutral-500 uppercase tracking-wide">Due Date</th>
+                        <th class="px-5 py-3 text-left text-xs font-semibold text-neutral-500 uppercase tracking-wide">Completed</th>
+                        <th class="px-5 py-3 text-left text-xs font-semibold text-neutral-500 uppercase tracking-wide">Status</th>
+                        <th class="px-5 py-3 text-left text-xs font-semibold text-neutral-500 uppercase tracking-wide">Actions</th>
                     </tr>
                 </thead>
-                <tbody class="divide-y divide-slate-100">
+                <tbody class="divide-y divide-neutral-100">
                     @forelse($complianceRecords as $record)
-                    <tr class="hover:bg-slate-50/70 @if($record->status === 'overdue') bg-rose-50/70 @endif">
+                    <tr class="hover:bg-neutral-50 transition-colors {{ $record->status === 'overdue' ? 'bg-red-50/40' : '' }}">
                         @if(auth()->user()->isFranchisor() || auth()->user()->isAdmin())
-                        <td class="px-6 py-4 text-slate-800">{{ $record->franchise->name }}</td>
+                        <td class="px-5 py-3.5 text-neutral-700">{{ $record->franchise->name }}</td>
                         @endif
-                        <td class="px-6 py-4 font-semibold text-slate-900">
-                            <div>{{ $record->requirement->name }}</div>
-                            <div class="text-xs text-slate-500">{{ $record->requirement->frequency }}</div>
+                        <td class="px-5 py-3.5">
+                            <p class="font-medium text-neutral-900">{{ $record->requirement->name }}</p>
+                            <p class="text-xs text-neutral-400 mt-0.5">{{ $record->requirement->frequency }}</p>
                         </td>
-                        <td class="px-6 py-4 text-slate-600 capitalize">
-                            {{ $record->requirement->category }}
-                        </td>
-                        <td class="px-6 py-4 text-slate-600">
-                            {{ $record->due_date->format('M d, Y') }}
-                            @if($record->due_date < now() && $record->status !== 'completed')
-                            <span class="text-rose-600 font-semibold ml-2">(Overdue)</span>
-                            @endif
-                        </td>
-                        <td class="px-6 py-4 text-slate-600">
-                            {{ $record->completion_date ? $record->completion_date->format('M d, Y') : '-' }}
-                        </td>
-                        <td class="px-6 py-4">
-                            <span class="pill 
-                                @if($record->status === 'completed') bg-emerald-50 text-emerald-700 border border-emerald-100
-                                @elseif($record->status === 'in_progress') bg-blue-50 text-blue-700 border border-blue-100
-                                @elseif($record->status === 'overdue') bg-rose-50 text-rose-700 border border-rose-100
-                                @elseif($record->status === 'non_compliant') bg-amber-50 text-amber-800 border border-amber-100
-                                @else bg-slate-100 text-slate-700 border border-slate-200
-                                @endif">
-                                {{ ucfirst(str_replace('_', ' ', $record->status)) }}
+                        <td class="px-5 py-3.5 text-neutral-500 capitalize text-xs">{{ $record->requirement->category }}</td>
+                        <td class="px-5 py-3.5 text-xs">
+                            <span class="{{ ($record->due_date < now() && $record->status !== 'completed') ? 'text-red-600 font-semibold' : 'text-neutral-500' }}">
+                                {{ $record->due_date->format('M d, Y') }}
                             </span>
                         </td>
-                        <td class="px-6 py-4 font-medium text-blue-600">
-                            <a href="#" class="hover:text-blue-700">View</a>
+                        <td class="px-5 py-3.5 text-neutral-500 text-xs">
+                            {{ $record->completion_date ? $record->completion_date->format('M d, Y') : '—' }}
+                        </td>
+                        <td class="px-5 py-3.5">
+                            @if($record->status === 'completed')
+                                <x-ui.badge color="emerald">{{ ucfirst($record->status) }}</x-ui.badge>
+                            @elseif($record->status === 'in_progress')
+                                <x-ui.badge color="blue">In Progress</x-ui.badge>
+                            @elseif($record->status === 'overdue')
+                                <x-ui.badge color="red">{{ ucfirst($record->status) }}</x-ui.badge>
+                            @elseif($record->status === 'non_compliant')
+                                <x-ui.badge color="orange">Non-Compliant</x-ui.badge>
+                            @else
+                                <x-ui.badge color="amber">{{ ucfirst($record->status) }}</x-ui.badge>
+                            @endif
+                        </td>
+                        <td class="px-5 py-3.5">
+                            <a href="#" class="text-xs font-medium text-indigo-600 hover:text-indigo-800 transition-colors">View</a>
                         </td>
                     </tr>
                     @empty
                     <tr>
-                        <td colspan="7" class="px-6 py-4 text-center text-sm text-slate-500">No compliance records found</td>
+                        <td colspan="7" class="px-5 py-10 text-center">
+                            <x-heroicon-m-clipboard-document-check class="w-8 h-8 text-neutral-300 mx-auto mb-2" />
+                            <p class="text-sm text-neutral-400">No compliance records found</p>
+                        </td>
                     </tr>
                     @endforelse
                 </tbody>
             </table>
         </div>
-
-        <div class="px-6 py-4 border-t border-slate-200/70 bg-slate-50/60">
+        <div class="px-5 py-4 border-t border-neutral-200 bg-neutral-50">
             {{ $complianceRecords->links() }}
         </div>
     </div>

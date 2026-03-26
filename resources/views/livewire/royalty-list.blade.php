@@ -1,26 +1,23 @@
-<div class="space-y-4">
-    <div class="glass-card p-6">
-        <div class="flex flex-wrap items-center justify-between gap-3">
-            <div>
-                <p class="muted-label">Finance</p>
-                <h2 class="text-2xl font-bold text-slate-900">Royalty Management</h2>
-                <p class="text-sm text-slate-600 mt-1">Track royalty accruals, invoicing, and payments</p>
-            </div>
-            @if(auth()->user()->isFranchisor() || auth()->user()->isAdmin())
-            <button wire:click="calculateRoyalties" class="inline-flex items-center gap-2 rounded-xl bg-gradient-to-r from-blue-600 to-indigo-600 px-4 py-2 text-sm font-semibold text-white shadow-md hover:shadow-lg hover:from-blue-700 hover:to-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-300 transition">
-                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
-                </svg>
-                Calculate Royalties
-            </button>
-            @endif
+<div class="space-y-5">
+    <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+        <div>
+            <h1 class="text-2xl font-bold text-neutral-900">Royalties</h1>
+            <p class="text-sm text-neutral-500 mt-0.5">Track royalty accruals, invoicing, and payments</p>
         </div>
+        @if(auth()->user()->isFranchisor() || auth()->user()->isAdmin())
+        <button wire:click="calculateRoyalties" class="inline-flex items-center gap-2 rounded-lg bg-indigo-600 hover:bg-indigo-700 px-4 py-2 text-sm font-semibold text-white shadow-xs transition-colors">
+            <x-heroicon-m-calculator class="w-4 h-4" />
+            Calculate Royalties
+        </button>
+        @endif
+    </div>
 
-        <div class="mt-5 grid grid-cols-1 sm:grid-cols-2 gap-4">
+    <div class="bg-white rounded-xl border border-neutral-200 p-5">
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
             @if(auth()->user()->isFranchisor() || auth()->user()->isAdmin())
-            <div>
-                <label class="muted-label block mb-2">Franchise</label>
-                <select wire:model.live="franchiseId" class="w-full rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm text-slate-800 shadow-sm focus:border-blue-500 focus:ring-2 focus:ring-blue-200">
+            <div class="space-y-1.5">
+                <label class="block text-xs font-semibold text-neutral-500 uppercase tracking-wide">Franchise</label>
+                <select wire:model.live="franchiseId" class="w-full rounded-lg border border-neutral-300 bg-white px-3 py-2.5 text-sm text-neutral-900 shadow-xs transition focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20 focus:outline-none">
                     <option value="">All Franchises</option>
                     @foreach($franchises as $franchise)
                     <option value="{{ $franchise->id }}">{{ $franchise->name }}</option>
@@ -28,9 +25,9 @@
                 </select>
             </div>
             @endif
-            <div>
-                <label class="muted-label block mb-2">Status</label>
-                <select wire:model.live="status" class="w-full rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm text-slate-800 shadow-sm focus:border-blue-500 focus:ring-2 focus:ring-blue-200">
+            <div class="space-y-1.5">
+                <label class="block text-xs font-semibold text-neutral-500 uppercase tracking-wide">Status</label>
+                <select wire:model.live="status" class="w-full rounded-lg border border-neutral-300 bg-white px-3 py-2.5 text-sm text-neutral-900 shadow-xs transition focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20 focus:outline-none">
                     <option value="">All Status</option>
                     <option value="pending">Pending</option>
                     <option value="calculated">Calculated</option>
@@ -42,124 +39,97 @@
         </div>
     </div>
 
-    <div class="glass-card overflow-hidden">
-        <div class="px-6 py-4 border-b border-slate-200/70 flex items-center justify-between">
-            <div>
-                <p class="muted-label">Remittances</p>
-                <p class="text-slate-800 font-semibold">Royalty ledger</p>
+    @if(auth()->user()->isFranchisor() || auth()->user()->isAdmin())
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <div class="bg-white rounded-xl border border-neutral-200 p-5 flex gap-4">
+            <div class="flex items-center justify-center w-11 h-11 rounded-lg bg-emerald-50 text-emerald-600 shrink-0">
+                <x-heroicon-m-check-circle class="w-5 h-5" />
             </div>
-            <div class="pill bg-slate-100 text-slate-700 border border-slate-200">{{ $royalties->total() }} entries</div>
+            <div>
+                <p class="text-xs font-semibold text-neutral-500 uppercase tracking-wide">Total Collected</p>
+                <p class="text-2xl font-bold text-neutral-900 mt-0.5">${{ number_format($royalties->where('status', 'paid')->sum('royalty_amount'), 0) }}</p>
+            </div>
+        </div>
+        <div class="bg-white rounded-xl border border-neutral-200 p-5 flex gap-4">
+            <div class="flex items-center justify-center w-11 h-11 rounded-lg bg-amber-50 text-amber-600 shrink-0">
+                <x-heroicon-m-clock class="w-5 h-5" />
+            </div>
+            <div>
+                <p class="text-xs font-semibold text-neutral-500 uppercase tracking-wide">Pending</p>
+                <p class="text-2xl font-bold text-neutral-900 mt-0.5">${{ number_format($royalties->whereIn('status', ['pending','calculated','invoiced'])->sum('royalty_amount'), 0) }}</p>
+            </div>
+        </div>
+        <div class="bg-white rounded-xl border border-neutral-200 p-5 flex gap-4">
+            <div class="flex items-center justify-center w-11 h-11 rounded-lg bg-red-50 text-red-600 shrink-0">
+                <x-heroicon-m-exclamation-triangle class="w-5 h-5" />
+            </div>
+            <div>
+                <p class="text-xs font-semibold text-neutral-500 uppercase tracking-wide">Overdue</p>
+                <p class="text-2xl font-bold text-red-600 mt-0.5">${{ number_format($royalties->where('status', 'overdue')->sum('royalty_amount'), 0) }}</p>
+            </div>
+        </div>
+    </div>
+    @endif
+
+    <div class="bg-white rounded-xl border border-neutral-200 overflow-hidden">
+        <div class="flex items-center justify-between px-5 py-4 border-b border-neutral-200">
+            <h2 class="text-sm font-semibold text-neutral-900">Royalty Ledger</h2>
+            <x-ui.badge color="indigo" variant="outline">{{ $royalties->total() }} entries</x-ui.badge>
         </div>
         <div class="overflow-x-auto">
-            <table class="w-full text-sm text-left text-slate-700">
-                <thead class="text-xs uppercase text-slate-500 bg-slate-50">
+            <table class="w-full text-sm">
+                <thead class="bg-neutral-50 border-b border-neutral-200">
                     <tr>
                         @if(auth()->user()->isFranchisor() || auth()->user()->isAdmin())
-                        <th class="px-6 py-3">Franchise</th>
+                        <th class="px-5 py-3 text-left text-xs font-semibold text-neutral-500 uppercase tracking-wide">Franchise</th>
                         @endif
-                        <th class="px-6 py-3">Period</th>
-                        <th class="px-6 py-3">Gross Sales</th>
-                        <th class="px-6 py-3">Rate</th>
-                        <th class="px-6 py-3">Royalty Amount</th>
-                        <th class="px-6 py-3">Due Date</th>
-                        <th class="px-6 py-3">Status</th>
+                        <th class="px-5 py-3 text-left text-xs font-semibold text-neutral-500 uppercase tracking-wide">Period</th>
+                        <th class="px-5 py-3 text-right text-xs font-semibold text-neutral-500 uppercase tracking-wide">Gross Sales</th>
+                        <th class="px-5 py-3 text-right text-xs font-semibold text-neutral-500 uppercase tracking-wide">Rate</th>
+                        <th class="px-5 py-3 text-right text-xs font-semibold text-neutral-500 uppercase tracking-wide">Amount</th>
+                        <th class="px-5 py-3 text-left text-xs font-semibold text-neutral-500 uppercase tracking-wide">Due Date</th>
+                        <th class="px-5 py-3 text-left text-xs font-semibold text-neutral-500 uppercase tracking-wide">Status</th>
                     </tr>
                 </thead>
-                <tbody class="divide-y divide-slate-100">
+                <tbody class="divide-y divide-neutral-100">
                     @forelse($royalties as $royalty)
-                    <tr class="hover:bg-slate-50/70">
+                    <tr class="hover:bg-neutral-50 transition-colors">
                         @if(auth()->user()->isFranchisor() || auth()->user()->isAdmin())
-                        <td class="px-6 py-4 font-semibold text-slate-900">{{ $royalty->franchise->name }}</td>
+                        <td class="px-5 py-3.5 font-medium text-neutral-900">{{ $royalty->franchise->name }}</td>
                         @endif
-                        <td class="px-6 py-4 text-slate-800">
-                            <div class="font-medium">{{ $royalty->period }}</div>
-                            <div class="text-xs text-slate-500">
-                                {{ $royalty->period_start->format('M d') }} - {{ $royalty->period_end->format('M d, Y') }}
-                            </div>
+                        <td class="px-5 py-3.5">
+                            <p class="font-medium text-neutral-900">{{ $royalty->period }}</p>
+                            <p class="text-xs text-neutral-400">{{ $royalty->period_start->format('M d') }} – {{ $royalty->period_end->format('M d, Y') }}</p>
                         </td>
-                        <td class="px-6 py-4 text-slate-900">
-                            ${{ number_format($royalty->gross_sales, 2) }}
-                        </td>
-                        <td class="px-6 py-4 text-slate-600">
-                            {{ number_format($royalty->royalty_percentage, 2) }}%
-                        </td>
-                        <td class="px-6 py-4 font-semibold text-slate-900">
-                            ${{ number_format($royalty->royalty_amount, 2) }}
-                        </td>
-                        <td class="px-6 py-4 text-slate-600">
-                            {{ $royalty->due_date ? $royalty->due_date->format('M d, Y') : 'N/A' }}
-                        </td>
-                        <td class="px-6 py-4">
-                            <span class="pill 
-                                @if($royalty->status === 'paid') bg-emerald-50 text-emerald-700 border border-emerald-100
-                                @elseif($royalty->status === 'overdue') bg-rose-50 text-rose-700 border border-rose-100
-                                @elseif($royalty->status === 'invoiced') bg-blue-50 text-blue-700 border border-blue-100
-                                @else bg-amber-50 text-amber-700 border border-amber-100
-                                @endif">
-                                {{ ucfirst($royalty->status) }}
-                            </span>
+                        <td class="px-5 py-3.5 text-right text-neutral-700">${{ number_format($royalty->gross_sales, 2) }}</td>
+                        <td class="px-5 py-3.5 text-right text-neutral-500">{{ number_format($royalty->royalty_percentage, 2) }}%</td>
+                        <td class="px-5 py-3.5 text-right font-semibold text-neutral-900">${{ number_format($royalty->royalty_amount, 2) }}</td>
+                        <td class="px-5 py-3.5 text-neutral-500 text-xs">{{ $royalty->due_date ? $royalty->due_date->format('M d, Y') : '—' }}</td>
+                        <td class="px-5 py-3.5">
+                            @if($royalty->status === 'paid')
+                                <x-ui.badge color="emerald">Paid</x-ui.badge>
+                            @elseif($royalty->status === 'overdue')
+                                <x-ui.badge color="red">Overdue</x-ui.badge>
+                            @elseif($royalty->status === 'invoiced')
+                                <x-ui.badge color="blue">Invoiced</x-ui.badge>
+                            @else
+                                <x-ui.badge color="amber">{{ ucfirst($royalty->status) }}</x-ui.badge>
+                            @endif
                         </td>
                     </tr>
                     @empty
                     <tr>
-                        <td colspan="7" class="px-6 py-4 text-center text-sm text-slate-500">No royalty records found</td>
+                        <td colspan="7" class="px-5 py-10 text-center">
+                            <x-heroicon-m-currency-dollar class="w-8 h-8 text-neutral-300 mx-auto mb-2" />
+                            <p class="text-sm text-neutral-400">No royalty records found</p>
+                        </td>
                     </tr>
                     @endforelse
                 </tbody>
             </table>
         </div>
-
-        <div class="px-6 py-4 border-t border-slate-200/70 bg-slate-50/60">
+        <div class="px-5 py-4 border-t border-neutral-200 bg-neutral-50">
             {{ $royalties->links() }}
         </div>
     </div>
-
-    @if(auth()->user()->isFranchisor() || auth()->user()->isAdmin())
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-        <div class="glass-card p-5 flex gap-4 items-start">
-            <div class="h-12 w-12 rounded-xl bg-gradient-to-br from-emerald-500 to-teal-500 text-white flex items-center justify-center shadow-md">
-                <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                </svg>
-            </div>
-            <div class="flex-1">
-                <p class="muted-label">Total Collected</p>
-                <p class="text-2xl font-semibold text-slate-900">
-                    ${{ number_format($royalties->where('status', 'paid')->sum('royalty_amount'), 2) }}
-                </p>
-                <p class="text-xs text-slate-500 mt-1">All paid remittances</p>
-            </div>
-        </div>
-
-        <div class="glass-card p-5 flex gap-4 items-start">
-            <div class="h-12 w-12 rounded-xl bg-gradient-to-br from-amber-400 to-orange-500 text-white flex items-center justify-center shadow-md">
-                <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                </svg>
-            </div>
-            <div class="flex-1">
-                <p class="muted-label">Pending</p>
-                <p class="text-2xl font-semibold text-slate-900">
-                    ${{ number_format($royalties->whereIn('status', ['pending', 'calculated', 'invoiced'])->sum('royalty_amount'), 2) }}
-                </p>
-                <p class="text-xs text-slate-500 mt-1">Awaiting invoicing or payment</p>
-            </div>
-        </div>
-
-        <div class="glass-card p-5 flex gap-4 items-start">
-            <div class="h-12 w-12 rounded-xl bg-gradient-to-br from-rose-500 to-red-500 text-white flex items-center justify-center shadow-md">
-                <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path>
-                </svg>
-            </div>
-            <div class="flex-1">
-                <p class="muted-label">Overdue</p>
-                <p class="text-2xl font-semibold text-rose-600">
-                    ${{ number_format($royalties->where('status', 'overdue')->sum('royalty_amount'), 2) }}
-                </p>
-                <p class="text-xs text-slate-500 mt-1">Requires immediate follow-up</p>
-            </div>
-        </div>
-    </div>
-    @endif
 </div>

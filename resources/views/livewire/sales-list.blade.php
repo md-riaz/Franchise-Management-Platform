@@ -1,27 +1,29 @@
-<div class="space-y-4">
-    <div class="glass-card p-6">
-        <div class="flex flex-wrap items-center justify-between gap-3">
-            <div>
-                <p class="muted-label">Revenue</p>
-                <h2 class="text-2xl font-bold text-slate-900">Sales Tracking</h2>
-                <p class="text-sm text-slate-600 mt-1">Filter revenue by franchise, status, and timeframe</p>
-            </div>
-            <div class="pill bg-slate-100 text-slate-700 border border-slate-200">
-                {{ $sales->total() }} records
-            </div>
+<div class="space-y-5">
+    {{-- Page header --}}
+    <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+        <div>
+            <h1 class="text-2xl font-bold text-neutral-900">Sales</h1>
+            <p class="text-sm text-neutral-500 mt-0.5">Filter revenue by franchise, status, and timeframe</p>
         </div>
+        <x-ui.badge color="indigo" variant="outline">{{ $sales->total() }} records</x-ui.badge>
+    </div>
 
-        <div class="mt-5 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-            <div>
-                <label class="muted-label block mb-2">Search</label>
-                <input type="text" wire:model.live="search" placeholder="Search sales..."
-                       class="w-full rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm text-slate-800 shadow-sm focus:border-blue-500 focus:ring-2 focus:ring-blue-200">
+    {{-- Filters --}}
+    <div class="bg-white rounded-xl border border-neutral-200 p-5">
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+            <div class="space-y-1.5">
+                <label class="block text-xs font-semibold text-neutral-500 uppercase tracking-wide">Search</label>
+                <div class="relative">
+                    <x-heroicon-m-magnifying-glass class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-neutral-400 pointer-events-none" />
+                    <input type="text" wire:model.live="search" placeholder="Search sales..."
+                        class="w-full rounded-lg border border-neutral-300 bg-white pl-9 pr-3 py-2.5 text-sm text-neutral-900 placeholder-neutral-400 shadow-xs transition focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20 focus:outline-none">
+                </div>
             </div>
-
             @if(auth()->user()->isFranchisor() || auth()->user()->isAdmin())
-            <div>
-                <label class="muted-label block mb-2">Franchise</label>
-                <select wire:model.live="franchiseId" class="w-full rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm text-slate-800 shadow-sm focus:border-blue-500 focus:ring-2 focus:ring-blue-200">
+            <div class="space-y-1.5">
+                <label class="block text-xs font-semibold text-neutral-500 uppercase tracking-wide">Franchise</label>
+                <select wire:model.live="franchiseId"
+                    class="w-full rounded-lg border border-neutral-300 bg-white px-3 py-2.5 text-sm text-neutral-900 shadow-xs transition focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20 focus:outline-none">
                     <option value="">All Franchises</option>
                     @foreach($franchises as $franchise)
                     <option value="{{ $franchise->id }}">{{ $franchise->name }}</option>
@@ -29,10 +31,10 @@
                 </select>
             </div>
             @endif
-
-            <div>
-                <label class="muted-label block mb-2">Status</label>
-                <select wire:model.live="status" class="w-full rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm text-slate-800 shadow-sm focus:border-blue-500 focus:ring-2 focus:ring-blue-200">
+            <div class="space-y-1.5">
+                <label class="block text-xs font-semibold text-neutral-500 uppercase tracking-wide">Status</label>
+                <select wire:model.live="status"
+                    class="w-full rounded-lg border border-neutral-300 bg-white px-3 py-2.5 text-sm text-neutral-900 shadow-xs transition focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20 focus:outline-none">
                     <option value="">All Status</option>
                     <option value="completed">Completed</option>
                     <option value="pending">Pending</option>
@@ -40,78 +42,75 @@
                     <option value="refunded">Refunded</option>
                 </select>
             </div>
-
-            <div class="flex gap-2">
-                <div class="flex-1">
-                    <label class="muted-label block mb-2">From</label>
+            <div class="space-y-1.5">
+                <label class="block text-xs font-semibold text-neutral-500 uppercase tracking-wide">Date Range</label>
+                <div class="flex gap-2">
                     <input type="date" wire:model.live="dateFrom"
-                           class="w-full rounded-xl border border-slate-200 bg-white px-3 py-2 text-sm text-slate-800 shadow-sm focus:border-blue-500 focus:ring-2 focus:ring-blue-200">
-                </div>
-                <div class="flex-1">
-                    <label class="muted-label block mb-2">To</label>
+                        class="flex-1 rounded-lg border border-neutral-300 bg-white px-3 py-2 text-sm text-neutral-900 shadow-xs transition focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20 focus:outline-none">
                     <input type="date" wire:model.live="dateTo"
-                           class="w-full rounded-xl border border-slate-200 bg-white px-3 py-2 text-sm text-slate-800 shadow-sm focus:border-blue-500 focus:ring-2 focus:ring-blue-200">
+                        class="flex-1 rounded-lg border border-neutral-300 bg-white px-3 py-2 text-sm text-neutral-900 shadow-xs transition focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20 focus:outline-none">
                 </div>
             </div>
         </div>
     </div>
 
-    <div class="glass-card overflow-hidden">
-        <div class="px-6 py-4 border-b border-slate-200/70 flex items-center justify-between">
-            <div>
-                <p class="muted-label">Ledger</p>
-                <p class="text-slate-800 font-semibold">Sales performance</p>
-            </div>
+    {{-- Table --}}
+    <div class="bg-white rounded-xl border border-neutral-200 overflow-hidden">
+        <div class="px-5 py-4 border-b border-neutral-200">
+            <h2 class="text-sm font-semibold text-neutral-900">Sales Ledger</h2>
         </div>
         <div class="overflow-x-auto">
-            <table class="w-full text-sm text-left text-slate-700">
-                <thead class="text-xs uppercase text-slate-500 bg-slate-50">
+            <table class="w-full text-sm">
+                <thead class="bg-neutral-50 border-b border-neutral-200">
                     <tr>
-                        <th class="px-6 py-3">Sale #</th>
+                        <th class="px-5 py-3 text-left text-xs font-semibold text-neutral-500 uppercase tracking-wide">Sale #</th>
                         @if(auth()->user()->isFranchisor() || auth()->user()->isAdmin())
-                        <th class="px-6 py-3">Franchise</th>
+                        <th class="px-5 py-3 text-left text-xs font-semibold text-neutral-500 uppercase tracking-wide">Franchise</th>
                         @endif
-                        <th class="px-6 py-3">Date</th>
-                        <th class="px-6 py-3">Subtotal</th>
-                        <th class="px-6 py-3">Tax</th>
-                        <th class="px-6 py-3">Total</th>
-                        <th class="px-6 py-3">Payment</th>
-                        <th class="px-6 py-3">Status</th>
+                        <th class="px-5 py-3 text-left text-xs font-semibold text-neutral-500 uppercase tracking-wide">Date</th>
+                        <th class="px-5 py-3 text-right text-xs font-semibold text-neutral-500 uppercase tracking-wide">Subtotal</th>
+                        <th class="px-5 py-3 text-right text-xs font-semibold text-neutral-500 uppercase tracking-wide">Tax</th>
+                        <th class="px-5 py-3 text-right text-xs font-semibold text-neutral-500 uppercase tracking-wide">Total</th>
+                        <th class="px-5 py-3 text-left text-xs font-semibold text-neutral-500 uppercase tracking-wide">Payment</th>
+                        <th class="px-5 py-3 text-left text-xs font-semibold text-neutral-500 uppercase tracking-wide">Status</th>
                     </tr>
                 </thead>
-                <tbody class="divide-y divide-slate-100">
+                <tbody class="divide-y divide-neutral-100">
                     @forelse($sales as $sale)
-                    <tr class="hover:bg-slate-50/70">
-                        <td class="px-6 py-4 font-semibold text-slate-900">{{ $sale->sale_number }}</td>
+                    <tr class="hover:bg-neutral-50 transition-colors">
+                        <td class="px-5 py-3.5 font-medium text-neutral-900">{{ $sale->sale_number }}</td>
                         @if(auth()->user()->isFranchisor() || auth()->user()->isAdmin())
-                        <td class="px-6 py-4 text-slate-600">{{ $sale->franchise->name }}</td>
+                        <td class="px-5 py-3.5 text-neutral-600">{{ $sale->franchise->name }}</td>
                         @endif
-                        <td class="px-6 py-4 text-slate-600">{{ $sale->sale_date->format('M d, Y') }}</td>
-                        <td class="px-6 py-4 text-slate-900">${{ number_format($sale->subtotal, 2) }}</td>
-                        <td class="px-6 py-4 text-slate-600">${{ number_format($sale->tax, 2) }}</td>
-                        <td class="px-6 py-4 font-semibold text-slate-900">${{ number_format($sale->total, 2) }}</td>
-                        <td class="px-6 py-4 text-slate-600">{{ ucfirst($sale->payment_method) }}</td>
-                        <td class="px-6 py-4">
-                            <span class="pill 
-                                @if($sale->status === 'completed') bg-emerald-50 text-emerald-700 border border-emerald-100
-                                @elseif($sale->status === 'pending') bg-amber-50 text-amber-700 border border-amber-100
-                                @elseif($sale->status === 'refunded') bg-blue-50 text-blue-700 border border-blue-100
-                                @else bg-rose-50 text-rose-700 border border-rose-100
-                                @endif">
-                                {{ ucfirst($sale->status) }}
-                            </span>
+                        <td class="px-5 py-3.5 text-neutral-500 text-xs">{{ $sale->sale_date->format('M d, Y') }}</td>
+                        <td class="px-5 py-3.5 text-right text-neutral-600">${{ number_format($sale->subtotal, 2) }}</td>
+                        <td class="px-5 py-3.5 text-right text-neutral-500">${{ number_format($sale->tax, 2) }}</td>
+                        <td class="px-5 py-3.5 text-right font-semibold text-neutral-900">${{ number_format($sale->total, 2) }}</td>
+                        <td class="px-5 py-3.5 text-neutral-500 capitalize">{{ $sale->payment_method }}</td>
+                        <td class="px-5 py-3.5">
+                            @if($sale->status === 'completed')
+                                <x-ui.badge color="emerald">{{ ucfirst($sale->status) }}</x-ui.badge>
+                            @elseif($sale->status === 'pending')
+                                <x-ui.badge color="amber">{{ ucfirst($sale->status) }}</x-ui.badge>
+                            @elseif($sale->status === 'refunded')
+                                <x-ui.badge color="blue">{{ ucfirst($sale->status) }}</x-ui.badge>
+                            @else
+                                <x-ui.badge color="red">{{ ucfirst($sale->status) }}</x-ui.badge>
+                            @endif
                         </td>
                     </tr>
                     @empty
                     <tr>
-                        <td colspan="8" class="px-6 py-4 text-center text-sm text-slate-500">No sales found</td>
+                        <td colspan="8" class="px-5 py-10 text-center">
+                            <x-heroicon-m-banknotes class="w-8 h-8 text-neutral-300 mx-auto mb-2" />
+                            <p class="text-sm text-neutral-400">No sales found</p>
+                        </td>
                     </tr>
                     @endforelse
                 </tbody>
             </table>
         </div>
-
-        <div class="px-6 py-4 border-t border-slate-200/70 bg-slate-50/60">
+        <div class="px-5 py-4 border-t border-neutral-200 bg-neutral-50">
             {{ $sales->links() }}
         </div>
     </div>

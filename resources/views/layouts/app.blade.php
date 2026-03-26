@@ -10,97 +10,128 @@
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     @livewireStyles
 </head>
-<body class="relative min-h-screen bg-gradient-to-b from-slate-50 via-slate-100 to-slate-50">
-    <div class="absolute inset-x-0 top-0 h-72 bg-gradient-to-br from-indigo-100 via-sky-100 to-emerald-50 blur-3xl opacity-70 -z-10"></div>
+<body class="bg-neutral-50 text-neutral-900 antialiased" x-data="{ sidebarOpen: false }">
 
     @php
         $navItems = [
-            ['label' => 'Dashboard', 'route' => 'dashboard'],
-            ['label' => 'Franchises', 'route' => 'franchises'],
-            ['label' => 'Inventory', 'route' => 'inventory'],
-            ['label' => 'Sales', 'route' => 'sales'],
-            ['label' => 'Vendors', 'route' => 'vendors'],
-            ['label' => 'Compliance', 'route' => 'compliance'],
-            ['label' => 'Royalties', 'route' => 'royalties'],
+            ['label' => 'Dashboard',  'route' => 'dashboard',  'icon' => 'squares-2x2'],
+            ['label' => 'Franchises', 'route' => 'franchises', 'icon' => 'building-office-2'],
+            ['label' => 'Inventory',  'route' => 'inventory',  'icon' => 'cube'],
+            ['label' => 'Sales',      'route' => 'sales',      'icon' => 'banknotes'],
+            ['label' => 'Vendors',    'route' => 'vendors',    'icon' => 'truck'],
+            ['label' => 'Compliance', 'route' => 'compliance', 'icon' => 'clipboard-document-check'],
+            ['label' => 'Royalties',  'route' => 'royalties',  'icon' => 'currency-dollar'],
         ];
     @endphp
 
-    <nav class="sticky top-0 z-40 border-b border-slate-200/70 bg-white/80 backdrop-blur shadow-sm">
-        <div class="page-shell">
-            <div class="flex flex-wrap items-center justify-between py-4 gap-4 md:gap-6">
-                <div class="flex items-center gap-3">
-                    <div class="h-12 w-12 rounded-2xl bg-gradient-to-br from-blue-600 via-indigo-500 to-cyan-400 flex items-center justify-center text-white font-bold shadow-md">
-                        FM
-                    </div>
-                    <div>
-                        <a href="{{ route('dashboard') }}" class="text-xl font-bold text-slate-900 block leading-tight">
-                            Franchise Platform
-                        </a>
-                        <p class="text-sm text-slate-500">Operate, analyze, and grow every location</p>
-                    </div>
-                </div>
+    <div class="flex h-screen overflow-hidden">
+        {{-- Sidebar overlay for mobile --}}
+        <div
+            x-show="sidebarOpen"
+            x-transition:enter="transition-opacity ease-linear duration-300"
+            x-transition:enter-start="opacity-0"
+            x-transition:enter-end="opacity-100"
+            x-transition:leave="transition-opacity ease-linear duration-300"
+            x-transition:leave-start="opacity-100"
+            x-transition:leave-end="opacity-0"
+            @click="sidebarOpen = false"
+            class="fixed inset-0 z-20 bg-black/50 lg:hidden"
+        ></div>
 
-                <div class="flex items-center gap-3 md:order-2">
-                    @auth
-                        <div class="hidden md:flex items-center gap-3 px-3 py-2 rounded-xl bg-slate-100 border border-slate-200 text-sm text-slate-700">
-                            <div class="h-8 w-8 rounded-full bg-blue-600/10 text-blue-700 flex items-center justify-center font-semibold">
-                                {{ strtoupper(substr(auth()->user()->name, 0, 1)) }}
-                            </div>
-                            <div class="leading-tight">
-                                <p class="font-semibold text-slate-900">{{ auth()->user()->name }}</p>
-                                <p class="text-xs text-slate-500">{{ auth()->user()->email }}</p>
-                            </div>
-                        </div>
-                        <form method="POST" action="{{ route('logout') }}" class="md:block">
-                            @csrf
-                            <button type="submit" class="inline-flex items-center gap-2 rounded-xl bg-gradient-to-r from-blue-600 to-indigo-600 px-4 py-2 text-sm font-semibold text-white shadow-md hover:shadow-lg hover:from-blue-700 hover:to-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-300 transition">
-                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12H3m0 0l4-4m-4 4l4 4m4-9V5a2 2 0 012-2h6a2 2 0 012 2v14a2 2 0 01-2 2h-6a2 2 0 01-2-2v-2"></path>
-                                </svg>
-                                Logout
-                            </button>
-                        </form>
-                    @endauth
-                    <button data-collapse-toggle="primary-nav" type="button" class="inline-flex items-center justify-center rounded-lg p-2 text-slate-600 hover:bg-slate-100 focus:outline-none focus:ring-2 focus:ring-blue-200 md:hidden" aria-controls="primary-nav" aria-expanded="false">
-                        <span class="sr-only">Open main menu</span>
-                        <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
-                        </svg>
-                    </button>
+        {{-- Sidebar --}}
+        <aside
+            :class="sidebarOpen ? 'translate-x-0' : '-translate-x-full'"
+            class="fixed inset-y-0 left-0 z-30 w-64 transform transition-transform duration-300 ease-in-out lg:static lg:translate-x-0 flex flex-col bg-white border-r border-neutral-200"
+        >
+            {{-- Logo --}}
+            <div class="flex items-center gap-3 px-5 py-5 border-b border-neutral-200">
+                <div class="flex items-center justify-center w-9 h-9 rounded-lg bg-indigo-600 text-white shrink-0">
+                    <x-heroicon-m-building-storefront class="w-5 h-5" />
                 </div>
-
-                <div class="hidden w-full md:block md:w-auto md:order-1" id="primary-nav">
-                    <div class="flex flex-col gap-2 rounded-2xl border border-slate-200 bg-white/70 p-2 shadow-sm md:flex-row md:items-center md:gap-1 md:border-0 md:bg-transparent md:p-0 md:shadow-none">
-                        @foreach ($navItems as $item)
-                            @php
-                                $isActive = request()->routeIs($item['route']);
-                            @endphp
-                            <a href="{{ route($item['route']) }}"
-                               class="flex items-center rounded-xl px-4 py-2 text-sm font-semibold transition
-                               {{ $isActive ? 'bg-blue-600 text-white shadow-md' : 'text-slate-700 hover:bg-slate-100' }}">
-                                {{ $item['label'] }}
-                            </a>
-                        @endforeach
-                    </div>
+                <div class="min-w-0">
+                    <p class="text-sm font-bold text-neutral-900 truncate">Franchise Platform</p>
+                    <p class="text-xs text-neutral-500 truncate">Management Suite</p>
                 </div>
             </div>
-        </div>
-    </nav>
 
-    <main class="relative z-10 py-10">
-        <div class="page-shell space-y-6">
-            @if (session('message'))
-                <div class="glass-card border-green-200 bg-emerald-50/80 text-emerald-800 px-4 py-3 flex items-start gap-3">
-                    <svg class="w-5 h-5 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-                    </svg>
-                    <div class="text-sm font-medium">{{ session('message') }}</div>
+            {{-- Navigation --}}
+            <nav class="flex-1 overflow-y-auto px-3 py-4 space-y-0.5">
+                @foreach ($navItems as $item)
+                    @php $isActive = request()->routeIs($item['route']); @endphp
+                    <a
+                        href="{{ route($item['route']) }}"
+                        class="flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium transition-colors
+                               {{ $isActive
+                                   ? 'bg-indigo-50 text-indigo-700'
+                                   : 'text-neutral-600 hover:bg-neutral-100 hover:text-neutral-900' }}"
+                    >
+                        <x-dynamic-component :component="'heroicon-m-' . $item['icon']" class="w-4 h-4 shrink-0" />
+                        {{ $item['label'] }}
+                    </a>
+                @endforeach
+            </nav>
+
+            {{-- User + logout --}}
+            @auth
+            <div class="px-3 py-4 border-t border-neutral-200">
+                <div class="flex items-center gap-3 px-3 py-2 rounded-lg bg-neutral-50 border border-neutral-200">
+                    <div class="flex items-center justify-center w-8 h-8 rounded-full bg-indigo-100 text-indigo-700 font-semibold text-sm shrink-0">
+                        {{ strtoupper(substr(auth()->user()->name, 0, 1)) }}
+                    </div>
+                    <div class="flex-1 min-w-0">
+                        <p class="text-sm font-semibold text-neutral-900 truncate">{{ auth()->user()->name }}</p>
+                        <p class="text-xs text-neutral-500 truncate">{{ auth()->user()->email }}</p>
+                    </div>
                 </div>
-            @endif
-            
-            {{ $slot }}
+                <form method="POST" action="{{ route('logout') }}" class="mt-2">
+                    @csrf
+                    <button type="submit" class="w-full flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-medium text-neutral-600 hover:bg-neutral-100 hover:text-neutral-900 transition-colors">
+                        <x-heroicon-m-arrow-right-start-on-rectangle class="w-4 h-4" />
+                        Sign out
+                    </button>
+                </form>
+            </div>
+            @endauth
+        </aside>
+
+        {{-- Main content area --}}
+        <div class="flex flex-col flex-1 overflow-hidden">
+            {{-- Top bar --}}
+            <header class="flex items-center justify-between h-14 px-4 sm:px-6 bg-white border-b border-neutral-200 shrink-0">
+                <button
+                    @click="sidebarOpen = !sidebarOpen"
+                    class="inline-flex items-center justify-center w-9 h-9 rounded-lg text-neutral-500 hover:bg-neutral-100 lg:hidden"
+                >
+                    <x-heroicon-m-bars-3 class="w-5 h-5" />
+                </button>
+                @auth
+                <div class="flex items-center gap-3 ml-auto">
+                    <span class="hidden sm:inline-flex items-center gap-1.5 text-xs font-medium text-neutral-500 bg-neutral-100 px-2.5 py-1 rounded-full">
+                        <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
+                        {{ ucfirst(auth()->user()->role ?? 'user') }}
+                    </span>
+                    <div class="flex items-center justify-center w-8 h-8 rounded-full bg-indigo-100 text-indigo-700 font-semibold text-sm">
+                        {{ strtoupper(substr(auth()->user()->name, 0, 1)) }}
+                    </div>
+                </div>
+                @endauth
+            </header>
+
+            {{-- Page content --}}
+            <main class="flex-1 overflow-y-auto bg-neutral-50">
+                <div class="page-shell py-6 space-y-6">
+                    @if (session('message'))
+                        <div class="flex items-start gap-3 rounded-lg bg-emerald-50 border border-emerald-200 text-emerald-800 px-4 py-3 text-sm font-medium">
+                            <x-heroicon-m-check-circle class="w-5 h-5 shrink-0 mt-0.5 text-emerald-600" />
+                            {{ session('message') }}
+                        </div>
+                    @endif
+
+                    {{ $slot }}
+                </div>
+            </main>
         </div>
-    </main>
+    </div>
 
     @livewireScripts
 </body>
