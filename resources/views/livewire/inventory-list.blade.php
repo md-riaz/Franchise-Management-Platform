@@ -1,67 +1,82 @@
-<div>
-    <div class="mb-6">
-        <h2 class="text-2xl font-bold text-gray-900">Inventory Management</h2>
-    </div>
-
-    <div class="bg-white shadow rounded-lg mb-6">
-        <div class="p-4 border-b border-gray-200">
-            <div class="flex flex-col sm:flex-row gap-4">
-                <div class="flex-1">
-                    <input type="text" wire:model.live="search" placeholder="Search products..." 
-                           class="w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500">
-                </div>
-                @if(auth()->user()->isFranchisor() || auth()->user()->isAdmin())
-                <div class="w-full sm:w-48">
-                    <select wire:model.live="franchiseId" class="w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500">
-                        <option value="">All Franchises</option>
-                        @foreach($franchises as $franchise)
-                        <option value="{{ $franchise->id }}">{{ $franchise->name }}</option>
-                        @endforeach
-                    </select>
-                </div>
-                @endif
-                <div class="flex items-center">
-                    <label class="flex items-center">
-                        <input type="checkbox" wire:model.live="lowStockOnly" class="rounded border-gray-300 text-blue-600 shadow-sm focus:border-blue-500 focus:ring-blue-500">
-                        <span class="ml-2 text-sm text-gray-700">Low Stock Only</span>
-                    </label>
-                </div>
+<div class="space-y-4">
+    <div class="glass-card p-6">
+        <div class="flex flex-wrap items-center justify-between gap-3">
+            <div>
+                <p class="muted-label">Operations</p>
+                <h2 class="text-2xl font-bold text-slate-900">Inventory Management</h2>
+                <p class="text-sm text-slate-600 mt-1">Track availability, reservations, and low-stock signals</p>
+            </div>
+            <div class="pill bg-slate-100 text-slate-700 border border-slate-200">
+                {{ $inventory->total() }} lines
             </div>
         </div>
 
+        <div class="mt-5 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+            <div class="sm:col-span-2">
+                <label class="muted-label block mb-2">Search</label>
+                <input type="text" wire:model.live="search" placeholder="Search products..."
+                       class="w-full rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm text-slate-800 shadow-sm focus:border-blue-500 focus:ring-2 focus:ring-blue-200">
+            </div>
+            @if(auth()->user()->isFranchisor() || auth()->user()->isAdmin())
+            <div>
+                <label class="muted-label block mb-2">Franchise</label>
+                <select wire:model.live="franchiseId" class="w-full rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm text-slate-800 shadow-sm focus:border-blue-500 focus:ring-2 focus:ring-blue-200">
+                    <option value="">All Franchises</option>
+                    @foreach($franchises as $franchise)
+                    <option value="{{ $franchise->id }}">{{ $franchise->name }}</option>
+                    @endforeach
+                </select>
+            </div>
+            @endif
+            <div class="flex items-end">
+                <label class="flex items-center gap-2 text-sm text-slate-700">
+                    <input type="checkbox" wire:model.live="lowStockOnly" class="rounded border-slate-300 text-blue-600 shadow-sm focus:border-blue-500 focus:ring-blue-500">
+                    Low Stock Only
+                </label>
+            </div>
+        </div>
+    </div>
+
+    <div class="glass-card overflow-hidden">
+        <div class="px-6 py-4 border-b border-slate-200/70 flex items-center justify-between">
+            <div>
+                <p class="muted-label">Stock table</p>
+                <p class="text-slate-800 font-semibold">Real-time quantities</p>
+            </div>
+        </div>
         <div class="overflow-x-auto">
-            <table class="min-w-full divide-y divide-gray-200">
-                <thead class="bg-gray-50">
+            <table class="w-full text-sm text-left text-slate-700">
+                <thead class="text-xs uppercase text-slate-500 bg-slate-50">
                     <tr>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Product</th>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">SKU</th>
+                        <th class="px-6 py-3">Product</th>
+                        <th class="px-6 py-3">SKU</th>
                         @if(auth()->user()->isFranchisor() || auth()->user()->isAdmin())
-                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Franchise</th>
+                        <th class="px-6 py-3">Franchise</th>
                         @endif
-                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Quantity</th>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Reserved</th>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Available</th>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
+                        <th class="px-6 py-3">Quantity</th>
+                        <th class="px-6 py-3">Reserved</th>
+                        <th class="px-6 py-3">Available</th>
+                        <th class="px-6 py-3">Status</th>
                     </tr>
                 </thead>
-                <tbody class="bg-white divide-y divide-gray-200">
+                <tbody class="divide-y divide-slate-100">
                     @forelse($inventory as $item)
-                    <tr>
-                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{{ $item->product->name }}</td>
-                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ $item->product->sku }}</td>
+                    <tr class="hover:bg-slate-50/70">
+                        <td class="px-6 py-4 font-semibold text-slate-900">{{ $item->product->name }}</td>
+                        <td class="px-6 py-4 text-slate-600">{{ $item->product->sku }}</td>
                         @if(auth()->user()->isFranchisor() || auth()->user()->isAdmin())
-                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ $item->franchise->name }}</td>
+                        <td class="px-6 py-4 text-slate-600">{{ $item->franchise->name }}</td>
                         @endif
-                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{{ $item->quantity }}</td>
-                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ $item->reserved_quantity }}</td>
-                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{{ $item->getAvailableQuantity() }}</td>
-                        <td class="px-6 py-4 whitespace-nowrap">
+                        <td class="px-6 py-4 text-slate-900">{{ $item->quantity }}</td>
+                        <td class="px-6 py-4 text-slate-600">{{ $item->reserved_quantity }}</td>
+                        <td class="px-6 py-4 text-slate-900">{{ $item->getAvailableQuantity() }}</td>
+                        <td class="px-6 py-4">
                             @if($item->isLowStock())
-                            <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-100 text-red-800">
+                            <span class="pill bg-rose-50 text-rose-700 border border-rose-100">
                                 Low Stock
                             </span>
                             @else
-                            <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
+                            <span class="pill bg-emerald-50 text-emerald-700 border border-emerald-100">
                                 In Stock
                             </span>
                             @endif
@@ -69,14 +84,13 @@
                     </tr>
                     @empty
                     <tr>
-                        <td colspan="7" class="px-6 py-4 text-center text-sm text-gray-500">No inventory items found</td>
+                        <td colspan="7" class="px-6 py-4 text-center text-sm text-slate-500">No inventory items found</td>
                     </tr>
                     @endforelse
                 </tbody>
             </table>
         </div>
-
-        <div class="px-4 py-3 border-t border-gray-200">
+        <div class="px-6 py-4 border-t border-slate-200/70 bg-slate-50/60">
             {{ $inventory->links() }}
         </div>
     </div>
