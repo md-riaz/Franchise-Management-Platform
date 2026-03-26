@@ -20,7 +20,7 @@
             "installationTime": 1774522322
         },
         "text": {
-            "installationTime": 1774522322
+            "installationTime": 1774544052
         },
         "separator": {
             "installationTime": 1774522323
@@ -39,6 +39,45 @@
         },
         "field": {
             "installationTime": 1774522345
+        },
+        "select": {
+            "installationTime": 1774544051
+        },
+        "popup": {
+            "installationTime": 1774544198
+        },
+        "textarea": {
+            "installationTime": 1774544122
+        },
+        "checkbox": {
+            "installationTime": 1774544123
+        },
+        "radio": {
+            "installationTime": 1774544123
+        },
+        "switch": {
+            "installationTime": 1774544123
+        },
+        "modal": {
+            "installationTime": 1774544196
+        },
+        "toast": {
+            "installationTime": 1774544196
+        },
+        "alerts": {
+            "installationTime": 1774544197
+        },
+        "tabs": {
+            "installationTime": 1774544197
+        },
+        "accordion": {
+            "installationTime": 1774544198
+        },
+        "popover": {
+            "installationTime": 1774544198
+        },
+        "tooltip": {
+            "installationTime": 1774544198
         }
     }
 }
