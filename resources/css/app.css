@@ -1,3 +1,4 @@
+@import './theme.css'; /* By Sheaf.dev */ 
 @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap');
 
 @tailwind base;
@@ -28,3 +29,6 @@
         @apply text-[13px] uppercase tracking-wide text-slate-500 font-semibold;
     }
 }
+
+
+ @custom-variant dark (&:where(.dark, .dark *)); /* By Sheaf.dev */ 
