@@ -16,25 +16,25 @@
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
             @if(auth()->user()->isFranchisor() || auth()->user()->isAdmin())
             <div class="space-y-1.5">
-                <label class="block text-xs font-semibold text-neutral-500 uppercase tracking-wide">Franchise</label>
-                <select wire:model.live="franchiseId" class="w-full rounded-lg border border-neutral-300 bg-white px-3 py-2.5 text-sm text-neutral-900 shadow-xs transition focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20 focus:outline-none">
-                    <option value="">All Franchises</option>
+                <x-ui.label>Franchise</x-ui.label>
+                <x-ui.select wire:model.live="franchiseId" placeholder="All Franchises">
+                    <x-ui.select.option value="">All Franchises</x-ui.select.option>
                     @foreach($franchises as $franchise)
-                    <option value="{{ $franchise->id }}">{{ $franchise->name }}</option>
+                    <x-ui.select.option value="{{ $franchise->id }}">{{ $franchise->name }}</x-ui.select.option>
                     @endforeach
-                </select>
+                </x-ui.select>
             </div>
             @endif
             <div class="space-y-1.5">
-                <label class="block text-xs font-semibold text-neutral-500 uppercase tracking-wide">Status</label>
-                <select wire:model.live="status" class="w-full rounded-lg border border-neutral-300 bg-white px-3 py-2.5 text-sm text-neutral-900 shadow-xs transition focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20 focus:outline-none">
-                    <option value="">All Status</option>
-                    <option value="pending">Pending</option>
-                    <option value="calculated">Calculated</option>
-                    <option value="invoiced">Invoiced</option>
-                    <option value="paid">Paid</option>
-                    <option value="overdue">Overdue</option>
-                </select>
+                <x-ui.label>Status</x-ui.label>
+                <x-ui.select wire:model.live="status" placeholder="All Status">
+                    <x-ui.select.option value="">All Status</x-ui.select.option>
+                    <x-ui.select.option value="pending">Pending</x-ui.select.option>
+                    <x-ui.select.option value="calculated">Calculated</x-ui.select.option>
+                    <x-ui.select.option value="invoiced">Invoiced</x-ui.select.option>
+                    <x-ui.select.option value="paid">Paid</x-ui.select.option>
+                    <x-ui.select.option value="overdue">Overdue</x-ui.select.option>
+                </x-ui.select>
             </div>
         </div>
     </div>

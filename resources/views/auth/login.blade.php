@@ -76,8 +76,8 @@
                     @csrf
 
                     <div class="space-y-1.5">
-                        <label class="block text-sm font-medium text-neutral-700" for="email">Email address</label>
-                        <input
+                        <x-ui.label for="email">Email address</x-ui.label>
+                        <x-ui.input
                             id="email"
                             type="email"
                             name="email"
@@ -85,41 +85,36 @@
                             required
                             autofocus
                             placeholder="you@example.com"
-                            class="block w-full rounded-lg border border-neutral-300 bg-white px-3 py-2.5 text-sm text-neutral-900 placeholder-neutral-400 shadow-xs transition focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20 focus:outline-none"
-                        >
+                        />
                     </div>
 
                     <div class="space-y-1.5">
-                        <label class="block text-sm font-medium text-neutral-700" for="password">Password</label>
-                        <input
+                        <x-ui.label for="password">Password</x-ui.label>
+                        <x-ui.input
                             id="password"
                             type="password"
                             name="password"
                             required
                             placeholder="••••••••"
-                            class="block w-full rounded-lg border border-neutral-300 bg-white px-3 py-2.5 text-sm text-neutral-900 placeholder-neutral-400 shadow-xs transition focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20 focus:outline-none"
-                        >
+                        />
                     </div>
 
                     <div class="flex items-center justify-between">
-                        <label class="flex items-center gap-2 cursor-pointer">
-                            <input
-                                id="remember"
-                                name="remember"
-                                type="checkbox"
-                                class="h-4 w-4 rounded border-neutral-300 text-indigo-600 focus:ring-indigo-500"
-                            >
-                            <span class="text-sm text-neutral-700">Remember me</span>
-                        </label>
+                        <x-ui.checkbox
+                            id="remember"
+                            name="remember"
+                            label="Remember me"
+                        />
                     </div>
 
-                    <button
+                    <x-ui.button
                         type="submit"
-                        class="w-full flex items-center justify-center gap-2 rounded-lg bg-indigo-600 hover:bg-indigo-700 active:bg-indigo-800 px-4 py-2.5 text-sm font-semibold text-white shadow-xs transition-colors focus:outline-none focus:ring-2 focus:ring-indigo-500/50"
+                        color="indigo"
+                        class="w-full"
                     >
                         <x-heroicon-m-arrow-right-end-on-rectangle class="w-4 h-4" />
                         Sign in
-                    </button>
+                    </x-ui.button>
                 </form>
 
                 <div class="rounded-lg border border-neutral-200 bg-neutral-50 p-4">

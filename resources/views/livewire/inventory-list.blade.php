@@ -12,31 +12,31 @@
     <div class="bg-white rounded-xl border border-neutral-200 p-5">
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
             <div class="sm:col-span-2 space-y-1.5">
-                <label class="block text-xs font-semibold text-neutral-500 uppercase tracking-wide">Search</label>
-                <div class="relative">
-                    <x-heroicon-m-magnifying-glass class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-neutral-400 pointer-events-none" />
-                    <input type="text" wire:model.live="search" placeholder="Search products..."
-                        class="w-full rounded-lg border border-neutral-300 bg-white pl-9 pr-3 py-2.5 text-sm text-neutral-900 placeholder-neutral-400 shadow-xs transition focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20 focus:outline-none">
-                </div>
+                <x-ui.label>Search</x-ui.label>
+                <x-ui.input wire:model.live="search" placeholder="Search products...">
+                    <x-slot:iconBefore>
+                        <x-heroicon-m-magnifying-glass class="w-4 h-4" />
+                    </x-slot:iconBefore>
+                    <x-slot:options>
+                        <x-ui.input.options.clearable />
+                    </x-slot:options>
+                </x-ui.input>
             </div>
             @if(auth()->user()->isFranchisor() || auth()->user()->isAdmin())
             <div class="space-y-1.5">
-                <label class="block text-xs font-semibold text-neutral-500 uppercase tracking-wide">Franchise</label>
-                <select wire:model.live="franchiseId"
-                    class="w-full rounded-lg border border-neutral-300 bg-white px-3 py-2.5 text-sm text-neutral-900 shadow-xs transition focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20 focus:outline-none">
-                    <option value="">All Franchises</option>
+                <x-ui.label>Franchise</x-ui.label>
+                <x-ui.select wire:model.live="franchiseId" placeholder="All Franchises">
+                    <x-ui.select.option value="">All Franchises</x-ui.select.option>
                     @foreach($franchises as $franchise)
-                    <option value="{{ $franchise->id }}">{{ $franchise->name }}</option>
+                    <x-ui.select.option value="{{ $franchise->id }}">{{ $franchise->name }}</x-ui.select.option>
                     @endforeach
-                </select>
+                </x-ui.select>
             </div>
             @endif
             <div class="flex items-end">
-                <label class="flex items-center gap-2 cursor-pointer text-sm text-neutral-700">
-                    <input type="checkbox" wire:model.live="lowStockOnly"
-                        class="h-4 w-4 rounded border-neutral-300 text-indigo-600 focus:ring-indigo-500">
-                    <span>Low Stock Only</span>
-                </label>
+                <x-ui.checkbox wire:model.live="lowStockOnly">
+                    <x-ui.checkbox.label>Low Stock Only</x-ui.checkbox.label>
+                </x-ui.checkbox>
             </div>
         </div>
     </div>

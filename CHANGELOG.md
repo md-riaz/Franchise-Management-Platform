@@ -14,10 +14,12 @@ and this project uses date-based releases (`YYYY-MM-DD`) as the version identifi
 - New screenshots capturing the updated UI (1440 × 757 px, all nine screens) in `public/screenshots/`
 - Added `blade-ui-kit/blade-heroicons` dependency to support Heroicon Blade components used throughout the new UI
 - Added missing base `Controller` class for API controllers
+- Completed SheafUI migration by replacing native HTML elements (input, button, label, checkbox) in login page with SheafUI components
 
 ### Changed
 - Adopted date-based versioning and updated release documentation
 - Updated `README.md` Screenshot Tour section: added welcome screenshot, switched list to a table, and added a description of the SheafUI revamp
+- Migrated login form to use SheafUI components (x-ui.input, x-ui.button, x-ui.label, x-ui.checkbox) for consistent UI/UX
 
 ## [2025-10-24]
 
