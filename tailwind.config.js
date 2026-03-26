@@ -6,9 +6,12 @@ export default {
     './resources/**/*.vue',
     './storage/framework/views/*.php',
     './vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php',
+    './node_modules/flowbite/**/*.js',
   ],
   theme: {
     extend: {},
   },
-  plugins: [],
+  plugins: [
+    require('flowbite/plugin'),
+  ],
 }
