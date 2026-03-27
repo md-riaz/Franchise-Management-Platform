@@ -29,6 +29,8 @@ and this project uses date-based releases (`YYYY-MM-DD`) as the version identifi
 ### Changed
 - Replaced inventory's boolean low-stock checkbox with a stock-level select filter supporting `low_stock` and `in_stock`.
 - Replaced compliance's boolean overdue checkbox with a focus select filter supporting `overdue`, `due_soon`, and `non_compliant`.
+- Updated documentation to reflect the current stack (`Laravel 13.x` and `Livewire 4.x`) across README and architecture docs.
+- Removed placeholder support email from README and linked support requests to the GitHub issues tracker.
 
 ## [2025-10-24]
 
