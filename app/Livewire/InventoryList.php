@@ -45,9 +45,9 @@ class InventoryList extends Component
         if ($this->stockFilter === 'low_stock') {
             $query->lowStock();
         } elseif ($this->stockFilter === 'in_stock') {
-            $query->whereHas('product', function ($q) {
-                $q->whereRaw('inventory.quantity > products.reorder_level');
-            });
+            $query->whereRaw(
+                'inventory.quantity > (select products.reorder_level from products where products.id = inventory.product_id)',
+            );
         }
         
         $inventory = $query->paginate(15);
