@@ -31,6 +31,8 @@ and this project uses date-based releases (`YYYY-MM-DD`) as the version identifi
 - Replaced compliance's boolean overdue checkbox with a focus select filter supporting `overdue`, `due_soon`, and `non_compliant`.
 - Updated documentation to reflect the current stack (`Laravel 13.x` and `Livewire 4.x`) across README and architecture docs.
 - Removed placeholder support email from README and linked support requests to the GitHub issues tracker.
+- Added a missing `x-layouts.app` Blade component alias so existing layout-component usage resolves correctly.
+- Restored `config/view.php` with compiled view path configuration to support artisan optimize/view cache workflows.
 
 ## [2025-10-24]
 
