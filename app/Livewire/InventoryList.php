@@ -14,7 +14,7 @@ class InventoryList extends Component
 
     public $search = '';
     public $franchiseId = '';
-    public $lowStockOnly = false;
+    public $stockFilter = '';
     
     public function updatingSearch()
     {
@@ -42,8 +42,12 @@ class InventoryList extends Component
             }
         }
         
-        if ($this->lowStockOnly) {
+        if ($this->stockFilter === 'low_stock') {
             $query->lowStock();
+        } elseif ($this->stockFilter === 'in_stock') {
+            $query->whereHas('product', function ($q) {
+                $q->whereRaw('inventory.quantity > products.reorder_level');
+            });
         }
         
         $inventory = $query->paginate(15);

@@ -33,10 +33,14 @@
                     <x-ui.select.option value="non_compliant">Non-Compliant</x-ui.select.option>
                 </x-ui.select>
             </div>
-            <div class="flex items-end">
-                <x-ui.checkbox wire:model.live="showOverdueOnly">
-                    <x-ui.checkbox.label>Overdue Only</x-ui.checkbox.label>
-                </x-ui.checkbox>
+            <div class="space-y-1.5">
+                <x-ui.label>Focus</x-ui.label>
+                <x-ui.select wire:model.live="complianceFocus" placeholder="All Compliance">
+                    <x-ui.select.option value="">All Compliance</x-ui.select.option>
+                    <x-ui.select.option value="overdue">Overdue Only</x-ui.select.option>
+                    <x-ui.select.option value="due_soon">Due in 7 Days</x-ui.select.option>
+                    <x-ui.select.option value="non_compliant">Non-Compliant Only</x-ui.select.option>
+                </x-ui.select>
             </div>
         </div>
     </div>

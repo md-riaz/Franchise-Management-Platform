@@ -33,10 +33,13 @@
                 </x-ui.select>
             </div>
             @endif
-            <div class="flex items-end">
-                <x-ui.checkbox wire:model.live="lowStockOnly">
-                    <x-ui.checkbox.label>Low Stock Only</x-ui.checkbox.label>
-                </x-ui.checkbox>
+            <div class="space-y-1.5">
+                <x-ui.label>Stock Level</x-ui.label>
+                <x-ui.select wire:model.live="stockFilter" placeholder="All Stock Levels">
+                    <x-ui.select.option value="">All Stock Levels</x-ui.select.option>
+                    <x-ui.select.option value="low_stock">Low Stock Only</x-ui.select.option>
+                    <x-ui.select.option value="in_stock">In Stock Only</x-ui.select.option>
+                </x-ui.select>
             </div>
         </div>
     </div>
