@@ -1,6 +1,6 @@
 # Franchise Management Platform
 
-A comprehensive, full-featured system built with **Laravel 11** and **Livewire 3** for managing dynamic, real-time franchise operations. This platform enables franchisors and franchisees to efficiently manage all aspects of their franchise network.
+A comprehensive, full-featured system built with **Laravel 13** and **Livewire 4** for managing dynamic, real-time franchise operations. This platform enables franchisors and franchisees to efficiently manage all aspects of their franchise network.
 
 ## Features
 
@@ -55,8 +55,8 @@ A comprehensive, full-featured system built with **Laravel 11** and **Livewire 3
 
 ## Technology Stack
 
-- **Backend**: Laravel 11.x
-- **Frontend**: Livewire 3.x, Tailwind CSS
+- **Backend**: Laravel 13.x
+- **Frontend**: Livewire 4.x, Tailwind CSS
 - **Database**: MySQL/PostgreSQL/SQLite (configurable)
 - **Testing**: PHPUnit
 - **Asset Building**: Vite
@@ -249,8 +249,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 ## Support
 
 For support and questions:
-- Create an issue on GitHub
-- Email: support@example.com
+- Create an issue on GitHub: https://github.com/md-riaz/Franchise-Management-Platform/issues
 
 ## Roadmap
 

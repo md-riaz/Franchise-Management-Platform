@@ -2,12 +2,12 @@
 
 ## System Overview
 
-The Franchise Management Platform is built using Laravel 11 and Livewire 3, following a modular, component-based architecture that emphasizes scalability, maintainability, and real-time interactivity.
+The Franchise Management Platform is built using Laravel 13 and Livewire 4, following a modular, component-based architecture that emphasizes scalability, maintainability, and real-time interactivity.
 
 ## Technology Stack
 
 ### Backend
-- **Framework**: Laravel 11.x
+- **Framework**: Laravel 13.x
 - **Language**: PHP 8.2+
 - **ORM**: Eloquent
 - **Queue System**: Laravel Queue (Database driver)
@@ -15,7 +15,7 @@ The Franchise Management Platform is built using Laravel 11 and Livewire 3, foll
 - **Session**: Database
 
 ### Frontend
-- **UI Framework**: Livewire 3.x
+- **UI Framework**: Livewire 4.x
 - **CSS Framework**: Tailwind CSS
 - **JavaScript**: Alpine.js (via Livewire)
 - **Build Tool**: Vite
