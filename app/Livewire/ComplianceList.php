@@ -14,7 +14,7 @@ class ComplianceList extends Component
 
     public $franchiseId = '';
     public $status = '';
-    public $showOverdueOnly = false;
+    public $complianceFocus = '';
     
     public function render()
     {
@@ -33,8 +33,13 @@ class ComplianceList extends Component
             $query->where('status', $this->status);
         }
         
-        if ($this->showOverdueOnly) {
+        if ($this->complianceFocus === 'overdue') {
             $query->overdue();
+        } elseif ($this->complianceFocus === 'non_compliant') {
+            $query->where('status', 'non_compliant');
+        } elseif ($this->complianceFocus === 'due_soon') {
+            $query->whereIn('status', ['pending', 'in_progress'])
+                ->whereBetween('due_date', [now()->startOfDay(), now()->copy()->addDays(7)->endOfDay()]);
         }
         
         $complianceRecords = $query->latest('due_date')->paginate(15);

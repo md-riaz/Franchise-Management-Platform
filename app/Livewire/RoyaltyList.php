@@ -44,15 +44,51 @@ class RoyaltyList extends Component
 
     public function calculateRoyalties()
     {
-        // Logic to automatically calculate royalties for all franchises
-        // This would typically be run as a scheduled task
-        $franchises = Franchise::active()->get();
-        
-        foreach ($franchises as $franchise) {
-            // Calculate monthly royalties based on sales
-            // Implementation would depend on business logic
+        if (!Auth::user()->isFranchisor() && !Auth::user()->isAdmin()) {
+            abort(403);
         }
-        
-        session()->flash('message', 'Royalties calculated successfully.');
+
+        $franchises = Franchise::active()->get();
+        $periodStart = now()->startOfMonth();
+        $periodEnd = now()->endOfMonth();
+        $period = $periodStart->format('Y-m');
+        $dueDate = $periodEnd->copy()->addDays(10);
+
+        $calculatedCount = 0;
+
+        foreach ($franchises as $franchise) {
+            $grossSales = \App\Models\Sale::where('franchise_id', $franchise->id)
+                ->completed()
+                ->whereBetween('sale_date', [$periodStart->toDateString(), $periodEnd->toDateString()])
+                ->sum('total');
+
+            if ($grossSales <= 0) {
+                continue;
+            }
+
+            $royalty = Royalty::firstOrNew([
+                'franchise_id' => $franchise->id,
+                'period' => $period,
+            ]);
+
+            if ($royalty->exists && $royalty->status === 'paid') {
+                continue;
+            }
+
+            $royalty->period_start = $periodStart->toDateString();
+            $royalty->period_end = $periodEnd->toDateString();
+            $royalty->gross_sales = $grossSales;
+            $royalty->royalty_percentage = $franchise->royalty_percentage;
+            $royalty->royalty_amount = round($grossSales * ($franchise->royalty_percentage / 100), 2);
+            $royalty->status = 'calculated';
+            $royalty->due_date = $dueDate->toDateString();
+            $royalty->save();
+
+            $calculatedCount++;
+        }
+
+        session()->flash('message', $calculatedCount > 0
+            ? "Calculated {$calculatedCount} royalty record(s) for {$period}."
+            : "No completed sales found for {$period}; royalties unchanged.");
     }
 }

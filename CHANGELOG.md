@@ -21,6 +21,15 @@ and this project uses date-based releases (`YYYY-MM-DD`) as the version identifi
 - Updated `README.md` Screenshot Tour section: added welcome screenshot, switched list to a table, and added a description of the SheafUI revamp
 - Migrated login form to use SheafUI components (x-ui.input, x-ui.button, x-ui.label, x-ui.checkbox) for consistent UI/UX
 
+## [2026-03-27]
+
+### Added
+- Implemented monthly royalty calculation in `RoyaltyList` using completed sales totals per active franchise, with idempotent upserts by period and an authorization guard.
+
+### Changed
+- Replaced inventory's boolean low-stock checkbox with a stock-level select filter supporting `low_stock` and `in_stock`.
+- Replaced compliance's boolean overdue checkbox with a focus select filter supporting `overdue`, `due_soon`, and `non_compliant`.
+
 ## [2025-10-24]
 
 ### Added
