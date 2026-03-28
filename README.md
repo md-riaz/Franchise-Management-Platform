@@ -136,11 +136,11 @@ After running `php artisan migrate --seed`, you can sign in with seeded accounts
 
 ## Docker Deployment
 
-Build and run the stack with Docker Compose (PHP-FPM, Nginx, and MySQL):
+Build and run the stack with Docker Compose (PHP-FPM, Nginx, SQLite):
 
 ```bash
 cp .env.example .env
-# Update APP_KEY and set DB_CONNECTION=mysql, DB_HOST=db, DB_DATABASE=franchise_management, DB_USERNAME=franchise, DB_PASSWORD=secret
+# Update APP_KEY (DB_CONNECTION is already set to sqlite)
 docker compose up -d --build
 docker compose exec app php artisan key:generate
 docker compose exec app php artisan migrate --force
@@ -148,7 +148,7 @@ docker compose exec app php artisan migrate --force
 docker compose exec app php artisan db:seed
 ```
 
-The application will be available at `http://localhost:8080`. Adjust database credentials in `.env` or `docker-compose.yml` as needed for your environment.
+The application will be available at `http://localhost:8082`. SQLite database is stored in `/var/www/html/database/database.sqlite` inside the container.
 
 ## Screenshot Tour
 
