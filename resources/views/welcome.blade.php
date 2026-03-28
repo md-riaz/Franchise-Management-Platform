@@ -21,9 +21,15 @@
                         automated royalties, and proactive compliance.
                     </p>
                     <div class="flex flex-wrap gap-3">
-                        <a href="{{ route('dashboard') }}" class="inline-flex items-center gap-2 rounded-xl bg-gradient-to-r from-blue-600 to-indigo-600 px-6 py-3 text-white font-semibold shadow-lg hover:from-blue-700 hover:to-indigo-700 transition">
-                            Launch dashboard
-                        </a>
+                        @auth
+                            <a href="{{ url('/dashboard') }}" class="inline-flex items-center gap-2 rounded-xl bg-gradient-to-r from-blue-600 to-indigo-600 px-6 py-3 text-white font-semibold shadow-lg hover:from-blue-700 hover:to-indigo-700 transition">
+                                Launch dashboard
+                            </a>
+                        @else
+                            <a href="{{ route('login') }}" class="inline-flex items-center gap-2 rounded-xl bg-gradient-to-r from-blue-600 to-indigo-600 px-6 py-3 text-white font-semibold shadow-lg hover:from-blue-700 hover:to-indigo-700 transition">
+                                Sign In
+                            </a>
+                        @endauth
                         <a href="#features" class="inline-flex items-center gap-2 rounded-xl border border-slate-200 bg-white px-6 py-3 text-slate-800 font-semibold shadow-sm hover:border-blue-200 hover:text-blue-700 transition">
                             Explore features
                         </a>
