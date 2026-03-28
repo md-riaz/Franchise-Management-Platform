@@ -5,9 +5,10 @@ vendor
 storage
 bootstrap/cache
 database/*.sqlite
-.env
-.env.*
 npm-debug.log
 yarn-error.log
 phpunit.xml
 public/storage
+.env
+.env.backup
+.env.production
