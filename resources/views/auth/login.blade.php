@@ -112,8 +112,8 @@
                         color="indigo"
                         class="w-full"
                     >
-                        <x-heroicon-m-arrow-right-end-on-rectangle class="w-4 h-4" />
                         Sign in
+                        <x-heroicon-m-arrow-right-end-on-rectangle class="w-4 h-4" />
                     </x-ui.button>
                 </form>
 
